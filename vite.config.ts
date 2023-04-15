@@ -25,6 +25,9 @@ export default defineConfig((env) => {
   const viteEnv = loadEnv(env.mode, process.cwd()) as unknown as ImportMetaEnv
 
   return {
+    define: {
+      'process.env': process.env,
+    },
     resolve: {
       alias: {
         '@': path.resolve(process.cwd(), 'src'),
@@ -42,7 +45,7 @@ export default defineConfig((env) => {
           rewrite: path => path.replace('/api/', '/'),
         },
         '/api/user': {
-          target: viteEnv.VITE_SERVE_API_BASE_URL,
+          target: process.env.VITE_SERVE_API_BASE_URL,
           changeOrigin: true, // 允许跨域
           rewrite: path => path.replace('/api/', '/'),
         },
