@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 import { getToken, removeToken, setToken } from './helper'
 import { store } from '@/store'
-import { fetchSession } from '@/api'
+import { fetchSession, login, register } from '@/api'
+import type { Response } from '@/utils/serve/request'
 
 interface SessionResponse {
   auth: boolean
@@ -30,6 +31,26 @@ export const useAuthStore = defineStore('auth-store', {
       try {
         const { data } = await fetchSession<SessionResponse>()
         this.session = { ...data }
+        return Promise.resolve(data)
+      }
+      catch (error) {
+        return Promise.reject(error)
+      }
+    },
+
+    async login(loginInfo: any) {
+      try {
+        const { data } = await login<Response>(loginInfo)
+        return Promise.resolve(data)
+      }
+      catch (error) {
+        return Promise.reject(error)
+      }
+    },
+
+    async register(regInfo: any) {
+      try {
+        const { data } = await register<Response>(regInfo)
         return Promise.resolve(data)
       }
       catch (error) {

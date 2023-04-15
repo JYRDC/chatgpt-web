@@ -41,6 +41,11 @@ export default defineConfig((env) => {
           changeOrigin: true, // 允许跨域
           rewrite: path => path.replace('/api/', '/'),
         },
+        '/api/user': {
+          target: viteEnv.VITE_SERVE_API_BASE_URL,
+          changeOrigin: true, // 允许跨域
+          rewrite: path => path.replace('/api/', '/'),
+        },
       },
     },
     build: {
