@@ -11,6 +11,8 @@ export function setupPageGuard(router: Router) {
         next({ name: 'login' })
     }
     if (!authStore.session) {
+      if (authStore.token && to.path === '/login')
+        next({ name: 'Root' })
       try {
         await authStore.getSession()
         // if (String(data.auth) === 'false' && authStore.token)
