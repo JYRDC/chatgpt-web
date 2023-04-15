@@ -35,18 +35,6 @@ export default defineConfig((env) => {
       host: '0.0.0.0',
       port: 1002,
       open: false,
-      proxy: {
-        '/api': {
-          target: viteEnv.VITE_APP_API_BASE_URL,
-          changeOrigin: true, // 允许跨域
-          rewrite: path => path.replace('/api/', '/'),
-        },
-        '/api/user': {
-          target: viteEnv.VITE_SERVE_API_BASE_URL,
-          changeOrigin: true, // 允许跨域
-          rewrite: path => path.replace('/api/', '/'),
-        },
-      },
     },
     build: {
       reportCompressedSize: false,
