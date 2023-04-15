@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 import { NButton, NCard, NInput, useMessage } from 'naive-ui'
-import { useRouter } from 'vue-router'
+// import { useRouter } from 'vue-router'
 import { ref } from 'vue'
-import countDown from '@/utils/countDown.js'
+import countDown from '@/utils/countDown'
 import { isNotEmptyString } from '@/utils/is'
 import { useAuthStoreWithout } from '@/store/modules/auth'
 import { setToken } from '@/store/modules/auth/helper'
 import { fetchVerCode } from '@/api'
 
 const regEmail = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/
-const router = useRouter()
+// const router = useRouter()
 const authStore = useAuthStoreWithout()
 const message = useMessage()
 
