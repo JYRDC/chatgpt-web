@@ -7,10 +7,12 @@ import { isNotEmptyString } from '@/utils/is'
 import { useAuthStoreWithout } from '@/store/modules/auth'
 import { setToken } from '@/store/modules/auth/helper'
 import { fetchVerCode } from '@/api'
+import { useUserStore } from '@/store'
 
 const regEmail = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/
 // const router = useRouter()
 const authStore = useAuthStoreWithout()
+const userStore = useUserStore()
 const message = useMessage()
 
 const { state: countDownState, start: startTimeout } = countDown(60)
@@ -40,6 +42,7 @@ async function submit() {
       data = await authStore.register(formInfo.value)
     }
     setToken(data.token)
+    userStore.updateUserInfo(data)
     window.location.reload()
   }
   catch (error: any) {
