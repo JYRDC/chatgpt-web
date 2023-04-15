@@ -1,19 +1,21 @@
 <script lang="ts" setup>
-import { NButton, NCard, NInput, useMessage } from 'naive-ui'
+import { NButton, NCard, NInput, useMessage, useNotification } from 'naive-ui'
 // import { useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { h, ref } from 'vue'
 import countDown from '@/utils/countDown'
 import { isNotEmptyString } from '@/utils/is'
 import { useAuthStoreWithout } from '@/store/modules/auth'
 import { setToken } from '@/store/modules/auth/helper'
 import { fetchVerCode } from '@/api'
 import { useUserStore } from '@/store'
+import { getCurrentDate } from '@/utils/functions'
 
 const regEmail = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/
 // const router = useRouter()
 const authStore = useAuthStoreWithout()
 const userStore = useUserStore()
 const message = useMessage()
+const notification = useNotification()
 
 const { state: countDownState, start: startTimeout } = countDown(60)
 
@@ -59,12 +61,39 @@ async function getVerCode() {
     const res: any = await fetchVerCode(formInfo.value.email)
     if (res.code === 200) {
       startTimeout()
-      message.success(res.message)
+      handleNotify()
+      // message.success(res.message)
     }
   }
   catch (error: any) {
     message.error(error.message)
   }
+}
+
+function handleNotify() {
+  let markAsRead = false
+  const n = notification.create({
+    title: '验证码已发送',
+    content: '部分邮箱（outlook）收不到验证码可能是因为被标记为垃圾邮件，到垃圾箱中可以看到验证码。如还有问题可联系管理员QQ：1329208516。',
+    closable: false,
+    meta: `${getCurrentDate()} `,
+    type: 'success',
+    action: () =>
+      h(
+        NButton,
+        {
+          text: true,
+          type: 'primary',
+          onClick: () => {
+            markAsRead = true
+            n.destroy()
+          },
+        },
+        {
+          default: () => '已读',
+        },
+      ),
+  })
 }
 </script>
 
