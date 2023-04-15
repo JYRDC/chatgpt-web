@@ -3,13 +3,14 @@ import { computed, ref } from 'vue'
 import { NButton, NInput, NPopconfirm, useMessage } from 'naive-ui'
 import type { Theme } from '@/store/modules/app/helper'
 import { SvgIcon } from '@/components/common'
-import { useAppStore, useUserStore } from '@/store'
+import { useAppStore, useAuthStore, useUserStore } from '@/store'
 // import type { UserInfo } from '@/store/modules/user/helper'
 import { getCurrentDate } from '@/utils/functions'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { t } from '@/locales'
 
 const appStore = useAppStore()
+const authStore = useAuthStore()
 const userStore = useUserStore()
 
 const { isMobile } = useBasicLayout()
@@ -69,6 +70,13 @@ const themeOptions: { label: string; key: Theme; icon: string }[] = [
 //   ms.success(t('common.success'))
 //   window.location.reload()
 // }
+
+function handleLogout() {
+  userStore.resetUserInfo()
+  authStore.setToken('')
+  ms.success(t('common.success'))
+  window.location.reload()
+}
 
 function exportData(): void {
   const date = getCurrentDate()
@@ -221,12 +229,12 @@ function handleImportButtonClick(): void {
       <!--    /> -->
       <!--  </div> -->
       <!-- </div> -->
-      <!-- <div class="flex items-center space-x-4"> -->
-      <!--  <span class="flex-shrink-0 w-[100px]">{{ $t('setting.resetUserInfo') }}</span> -->
-      <!--  <NButton size="small" @click="handleReset"> -->
-      <!--    {{ $t('common.reset') }} -->
-      <!--  </NButton> -->
-      <!-- </div> -->
+      <div class="flex items-center space-x-4">
+        <span class="flex-shrink-0 w-[100px]">状态</span>
+        <NButton type="error" size="small" @click="handleLogout">
+          退出登录
+        </NButton>
+      </div>
     </div>
   </div>
 </template>
