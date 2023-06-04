@@ -4,7 +4,7 @@ import { HoverButton, SvgIcon, UserAvatar } from '@/components/common'
 
 const Setting = defineAsyncComponent(() => import('@/components/common/Setting/index.vue'))
 
-const show = ref(false)
+const show = ref(true)
 </script>
 
 <template>
