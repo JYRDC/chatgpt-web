@@ -49,7 +49,7 @@ async function submit() {
     <NCard hoverable style="width: 90%;" header-style="text-align: center;">
       <template #header>
         <p style="font-weight: bold; font-size: 22px">
-          "登 录"
+          登 录
         </p>
       </template>
       <div class="p-4 space-y-5 min-h-[150px]">
