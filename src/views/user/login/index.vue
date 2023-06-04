@@ -1,23 +1,16 @@
 <script lang="ts" setup>
 import { NButton, NCard, NInput, useMessage, useNotification } from 'naive-ui'
-// import { useRouter } from 'vue-router'
-import { h, ref } from 'vue'
-import countDown from '@/utils/countDown'
+import { ref } from 'vue'
 import { isNotEmptyString } from '@/utils/is'
 import { useAuthStoreWithout } from '@/store/modules/auth'
 import { setToken } from '@/store/modules/auth/helper'
-import { fetchVerCode } from '@/api'
 import { useUserStore } from '@/store'
-import { getCurrentDate } from '@/utils/functions'
 
 const regEmail = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/
-// const router = useRouter()
 const authStore = useAuthStoreWithout()
 const userStore = useUserStore()
 const message = useMessage()
 const notification = useNotification()
-
-const { state: countDownState, start: startTimeout } = countDown(60)
 
 const isLogin = ref(true)
 const formInfo = ref({ email: '', password: '', verCode: '' })
@@ -51,48 +44,6 @@ async function submit() {
     message.error(error.message)
   }
 }
-
-async function getVerCode() {
-  if (!regEmail.test(formInfo.value.email)) {
-    message.warning('请输入正确的邮箱')
-    return
-  }
-  try {
-    const res: any = await fetchVerCode(formInfo.value.email)
-    if (res.code === 200) {
-      startTimeout()
-      handleNotify()
-      // message.success(res.message)
-    }
-  }
-  catch (error: any) {
-    message.error(error.message)
-  }
-}
-
-function handleNotify() {
-  const n = notification.create({
-    title: '验证码已发送',
-    content: '部分邮箱（outlook）收不到验证码可能是因为被标记为垃圾邮件，到垃圾箱中可以看到验证码。如还有问题可联系管理员QQ：1329208516。',
-    closable: false,
-    meta: `${getCurrentDate()} `,
-    type: 'success',
-    action: () =>
-      h(
-        NButton,
-        {
-          text: true,
-          type: 'primary',
-          onClick: () => {
-            n.destroy()
-          },
-        },
-        {
-          default: () => '已读',
-        },
-      ),
-  })
-}
 </script>
 
 <template>
@@ -100,7 +51,7 @@ function handleNotify() {
     <NCard hoverable style="width: 90%;" header-style="text-align: center;">
       <template #header>
         <p style="font-weight: bold; font-size: 22px">
-          {{ isLogin ? "登 录" : "注 册" }}
+          "登 录"
         </p>
       </template>
       <div class="p-4 space-y-5 min-h-[150px]">
@@ -117,30 +68,10 @@ function handleNotify() {
               <NInput v-model:value="formInfo.password" type="password" placeholder="" />
             </div>
           </div>
-          <div v-if="!isLogin" class="flex items-center space-x-4">
-            <span class="flex-shrink-0 w-[42px]">验证码</span>
-            <div class="w-[100px]">
-              <NInput v-model:value="formInfo.verCode" placeholder="" />
-            </div>
-            <div class="w-[100px]">
-              <NButton quaternary @click="getVerCode">
-                {{ countDownState.count === 0 ? "获取验证码" : countDownState.count }}
-              </NButton>
-            </div>
-          </div>
         </div>
       </div>
       <div class="logio-option">
-        <NButton v-if="!isLogin" @click="isLogin = !isLogin">
-          登 录
-        </NButton>
-        <NButton v-if="!isLogin" type="info" @click="submit">
-          注 册
-        </NButton>
-        <NButton v-if="isLogin" @click="isLogin = !isLogin">
-          注 册
-        </NButton>
-        <NButton v-if="isLogin" type="info" @click="submit">
+        <NButton type="info" @click="submit">
           登 录
         </NButton>
       </div>
