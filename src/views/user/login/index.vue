@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { NButton, NCard, NInput, useMessage, useNotification } from 'naive-ui'
+import { NButton, NCard, NInput, useMessage } from 'naive-ui'
 import { ref } from 'vue'
 import { isNotEmptyString } from '@/utils/is'
 import { useAuthStoreWithout } from '@/store/modules/auth'
@@ -10,8 +10,6 @@ const regEmail = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/
 const authStore = useAuthStoreWithout()
 const userStore = useUserStore()
 const message = useMessage()
-const notification = useNotification()
-
 const isLogin = ref(true)
 const formInfo = ref({ email: '', password: '', verCode: '' })
 
