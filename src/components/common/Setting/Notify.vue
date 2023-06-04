@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { NSpin } from 'naive-ui'
 
-const loading = ref(true)
+const loading = ref(false)
 </script>
 
 <template>
