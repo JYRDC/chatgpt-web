@@ -71,13 +71,6 @@ const themeOptions: { label: string; key: Theme; icon: string }[] = [
 //   window.location.reload()
 // }
 
-function handleLogout() {
-  userStore.resetUserInfo()
-  authStore.setToken('')
-  ms.success(t('common.success'))
-  window.location.reload()
-}
-
 function exportData(): void {
   const date = getCurrentDate()
   const data: string = localStorage.getItem('chatStorage') || '{}'
@@ -229,12 +222,6 @@ function handleImportButtonClick(): void {
       <!--    /> -->
       <!--  </div> -->
       <!-- </div> -->
-      <div class="flex items-center space-x-4">
-        <span class="flex-shrink-0 w-[100px]">状态</span>
-        <NButton type="error" size="small" @click="handleLogout">
-          退出登录
-        </NButton>
-      </div>
     </div>
   </div>
 </template>
