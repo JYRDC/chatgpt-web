@@ -3,14 +3,13 @@ import { computed, ref } from 'vue'
 import { NButton, NInput, NPopconfirm, useMessage } from 'naive-ui'
 import type { Theme } from '@/store/modules/app/helper'
 import { SvgIcon } from '@/components/common'
-import { useAppStore, useAuthStore, useUserStore } from '@/store'
+import { useAppStore, useUserStore } from '@/store'
 // import type { UserInfo } from '@/store/modules/user/helper'
 import { getCurrentDate } from '@/utils/functions'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { t } from '@/locales'
 
 const appStore = useAppStore()
-const authStore = useAuthStore()
 const userStore = useUserStore()
 
 const { isMobile } = useBasicLayout()
